@@ -1,24 +1,14 @@
-# README
+## OOCL-Crawler
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Crawl
+```Go to: http://localhost:3000/oocl```
 
-Things you may want to cover:
+method: ```GET```
 
-* Ruby version
+params:
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+    ```javascript
+        {
+            "containers": ["FCIU5229601", "OOLU0571619"]
+        }
+    ```
