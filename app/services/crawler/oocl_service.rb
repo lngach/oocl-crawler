@@ -113,6 +113,11 @@ module Crawler
 
       res = http.request(req)
       @log_service.info "\nFinal step! Extracting crawled data..."
+
+      if res.body.include?('API integration, please contact helpdesk@cargosmart.com')
+        raise StandardError, 'Blocked by cargosmart! Cannot crawl'
+      end
+
       extract_info_from_third_page(res.body)
     end
 
@@ -156,7 +161,6 @@ module Crawler
 
     def gather_info(page)
       rows = page.search('#Tab1 #eventListTable tr')
-
       rows.drop(1).each do |row|
         col = row.search('td')
 
@@ -166,7 +170,6 @@ module Crawler
 
         dep_info = td4.search('span')
         arr_info = td6.search('span')
-
         con_info = { "#{@current_cntr_no}": {} }
         con_info[@current_cntr_no.to_s] = {
           pol: dep_info.css('span:nth-child(1)').text,
