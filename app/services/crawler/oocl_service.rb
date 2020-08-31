@@ -113,11 +113,7 @@ module Crawler
 
       res = http.request(req)
       @log_service.info "\nFinal step! Extracting crawled data..."
-
-      if res.body.include?('API integration, please contact helpdesk@cargosmart.com')
-        raise StandardError, 'Blocked by cargosmart! Cannot crawl'
-      end
-
+      check_valid_reponse!(res)
       extract_info_from_third_page(res.body)
     end
 
@@ -220,5 +216,14 @@ module Crawler
       @cookie = nil
       @user_token = ''
     end
+
+    def check_valid_reponse!(res)
+      if res.body.include?('API integration, please contact helpdesk@cargosmart.com')
+        raise StandardError, 'Blocked by cargosmart! Cannot crawl'
+      elsif res.body.include?('This website is blocked')
+        raise StandardError, 'Blocked by cargosmart! Cannot crawl'
+      end
+    end
+  
   end
 end
